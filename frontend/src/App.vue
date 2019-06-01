@@ -15,12 +15,12 @@
 
 export default {
     name: 'App',
-    data () {
+    data() {
         return {};
     },
     mounted() {
         this.$socket.emit('test', { data: 'test' }, (data) => {
-            console.log(data)
+            console.log(data);
         });
     }
 };
