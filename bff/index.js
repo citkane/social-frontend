@@ -7,6 +7,10 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http, { path: '/ws' });
 const ioWildcard = require('socketio-wildcard')();
 const zmq = require('zmq');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const ports = require('@social/social-deployment/topology/portMaps'); // installed in parent folder
+
+console.log(ports);
 
 const reqResPort = 4000;
 
@@ -33,11 +37,17 @@ io.on('connection', (socket) => {
         console.log('A user disconnected', reason);
     });
 
-    socket.on('test', (foo) => {
-        console.log(foo.data);
+    socket.on('*', (foo) => {
+        const apiPath = foo.data.shift();
+        let callBack;
+        if (typeof foo.data[foo.data.length - 1] === 'function') callBack = foo.data.pop();
+        const args = foo.data;
+        console.log(apiPath, ...args, callBack);
+        /*
         reqRes(foo.data).then(() => {
             console.log(foo);
         });
+        */
     });
 });
 

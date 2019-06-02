@@ -1,0 +1,14 @@
+{
+  "name": "social-frontend",
+  "version": "0.0.0",
+  "description": "Frontend gui and bff for Social",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Michael Jonker",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@social/social-deployment": "git+https://git@github.com/citkane/social-deployment.git"
+  }
+}
