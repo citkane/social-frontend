@@ -17,11 +17,6 @@ export default {
     name: 'App',
     data() {
         return {};
-    },
-    mounted() {
-        this.$socket.emit('test', { data: 'test' }, (data) => {
-            console.log(data);
-        });
     }
 };
 </script>

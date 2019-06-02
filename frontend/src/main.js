@@ -15,3 +15,13 @@ new Vue({
     store,
     render: h => h(App)
 }).$mount('#app');
+
+Vue.prototype.$socket.on('doggy.dog', (data) => {
+    console.log(data);
+});
+Vue.prototype.$socket.on('getUser', (callBack) => {
+    callBack({
+        userId: 'xxxx',
+        userName: 'Michael Jonker'
+    });
+});
