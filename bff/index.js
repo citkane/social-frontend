@@ -10,7 +10,7 @@ const ports = require('@social/social-deployment/topology/portMaps'); // install
 
 const subscriber = zmq.socket('sub');
 subscriber.connect(`tcp://127.0.0.1:${ports.pubsub}`);
-subscriber.subscribe('doggy.dog');
+subscriber.subscribe('users.newUser');
 subscriber.on('message', (topic, message) => {
     const t = topic.toString();
     let m;
@@ -33,11 +33,11 @@ const serverTimeoutMsg = {
     message: 'Server timed out for request'
 };
 
-function reqRes(userId, apiPath, action, command, args) {
+function reqRes(ownerId, apiPath, action, command, args) {
     try {
         const apiPort = ports[apiPath].crud;
         const message = JSON.stringify({
-            userId,
+            ownerId,
             action,
             command,
             args
@@ -66,7 +66,6 @@ function reqRes(userId, apiPath, action, command, args) {
                 requester.close();
                 promise.resolve(serverTimeoutMsg);
             }, serverTimeout);
-            console.log(message);
             requester.send(message);
         });
     } catch (err) {

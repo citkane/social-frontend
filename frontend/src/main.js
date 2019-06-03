@@ -16,7 +16,7 @@ new Vue({
     render: h => h(App)
 }).$mount('#app');
 
-Vue.prototype.$socket.on('doggy.dog', (data) => {
+Vue.prototype.$socket.on('users.newUser', (data) => {
     console.log(data);
 });
 Vue.prototype.$socket.on('getUser', (callBack) => {
