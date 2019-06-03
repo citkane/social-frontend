@@ -1,13 +1,21 @@
 module.exports = {
     devServer: {
         proxy: {
-            '^/ws': {
+            '/ws/': {
                 target: 'ws://localhost:3000',
                 ws: true,
                 changeOrigin: true
             },
-            '^/*': {
-                target: 'http://localhost:3000'
+            '/socket.io/': {
+                target: 'http://localhost:3000',
+                ws: true,
+                changeOrigin: true
+
+            },
+            '/img/': {
+                target: 'http://localhost:3000',
+                ws: true,
+                changeOrigin: true
             }
         }
     },
