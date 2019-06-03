@@ -13,7 +13,7 @@
 export default {
     methods: {
         testImage() {
-            this.$api.read('images').test('http://allergicliving.com/wp-content/uploads/2015/02/cat2.jpg')
+            this.$api.read('images.test', 'http://allergicliving.com/wp-content/uploads/2015/02/cat2.jpg')
                 .then((data) => {
                     console.log(data);
                 })
@@ -22,9 +22,7 @@ export default {
                 });
         },
         createUser() {
-            this.$api.create('users').newUser({
-                userName: 'New User'
-            })
+            this.$api.create('users.newUser', { userName: 'New User' })
                 .then((data) => {
                     console.log(data);
                 })

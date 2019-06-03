@@ -2,12 +2,17 @@ function checkStatus(data) {
     if (data.status > 199 && data.status < 300) return 'ok';
     return 'bad';
 }
-
 class ApiInterface {
     constructor(Vue) {
         this.socket = Vue.prototype.$socket;
-        this.builder = (action, type, command) => (...args) => new Promise((resolve, reject) => {
-            this.socket.emit(type, action, command, args, (data) => {
+        this.builder = (action, path, args = []) => new Promise((resolve, reject) => {
+            let thisArgs = args;
+            const route = path.split('.');
+            if (route.length !== 2) reject(new Error('malformed api call'));
+            const type = route[0];
+            const command = route[1];
+            if (!Array.isArray(thisArgs)) thisArgs = [thisArgs];
+            this.socket.emit(type, action, command, thisArgs, (data) => {
                 if (checkStatus(data) === 'ok') {
                     resolve(data.payload || null);
                 } else {
@@ -16,23 +21,10 @@ class ApiInterface {
             });
         });
         return {
-            create: api => this[api]('create'),
-            read: api => this[api]('read'),
-            update: api => this[api]('update'),
-            delete: api => this[api]('delete')
-        };
-    }
-
-    images(action) {
-        return {
-            test: this.builder(action, 'images', 'test')
-        };
-    }
-
-    users(action) {
-        return {
-            all: this.builder(action, 'users', 'all'),
-            newUser: this.builder(action, 'users', 'newUser')
+            create: (path, args) => this.builder('create', path, args),
+            read: (path, args) => this.builder('read', path, args),
+            update: (path, args) => this.builder('update', path, args),
+            delete: (path, args) => this.builder('delete', path, args)
         };
     }
 }
