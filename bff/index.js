@@ -16,16 +16,13 @@ io.on('connection', (socket) => {
     socket.on('disconnect', (reason) => {
         console.log('A user disconnected', reason);
     });
-    socket.emit('getUser', (user) => {
-        checkAuth(user)
-            .then((loggedInUser) => {
-                const subscriber = new Subscriber(socket);
-                subscriber.subscribe('users.newUser');
-                makeUserSocket(loggedInUser, socket);
-            })
-            .catch((err) => {
-                socket.emit('loginError', err);
-            });
+    socket.on('user-logged-in', (user, callBack) => {
+        const subscriber = new Subscriber(socket);
+        subscriber.subscribe('users.user-updated');
+        subscriber.subscribe('users.user-created');
+        subscriber.subscribe('users.user-deleted');
+        makeUserSocket(user, socket);
+        callBack();
     });
 });
 

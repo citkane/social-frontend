@@ -30,7 +30,6 @@ function reqRes(ownerId, apiPath, action, command, args) {
 
         requester.on('message', (msg) => {
             try {
-                console.log(msg.toString());
                 const m = JSON.parse(msg.toString());
                 promise.resolve(m);
             } catch (err) {
