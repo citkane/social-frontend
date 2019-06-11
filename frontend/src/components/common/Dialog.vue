@@ -1,7 +1,12 @@
 <template>
     <v-dialog :width="width" v-model="dialog">
         <template v-slot:activator="{ on }">
-            <v-btn :icon="icon || false" small v-on="on">
+            <v-btn
+                :icon="icon || false"
+                :small="small || false"
+                :flat="flat || false"
+                :color="color"
+                v-on="on">
                 <slot name="button"></slot>
             </v-btn>
         </template>
@@ -34,6 +39,15 @@ export default {
         },
         icon: {
             type: Boolean
+        },
+        small: {
+            type: Boolean
+        },
+        flat: {
+            type: Boolean
+        },
+        color: {
+            type: String
         }
     },
     methods: {

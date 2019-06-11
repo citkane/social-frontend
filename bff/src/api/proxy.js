@@ -13,6 +13,11 @@ const serverTimeoutMsg = {
     message: 'Server timed out for request'
 };
 
+function checkStatus(data) {
+    if (data.status > 199 && data.status < 300) return data;
+    return { error: data };
+}
+
 function reqRes(ownerId, apiPath, action, command, args) {
     try {
         const apiPort = ports[apiPath].crud;
@@ -55,13 +60,13 @@ function reqRes(ownerId, apiPath, action, command, args) {
 
 function makeUserSocket(user, socket) {
     const { userId } = user;
-    socket.on('*', (foo) => {
+    socket.use((packet, next) => {
         let callBack;
-        const apiPath = foo.data.shift();
-        const action = foo.data.shift();
-        const command = foo.data.shift();
-        const args = foo.data.shift();
-        if (typeof foo.data[foo.data.length - 1] === 'function') callBack = foo.data.pop();
+        const apiPath = packet.shift();
+        const action = packet.shift();
+        const command = packet.shift();
+        const args = packet.shift();
+        if (typeof packet[packet.length - 1] === 'function') callBack = packet.pop();
         reqRes(userId, apiPath, action, command, args)
             .then((response) => {
                 if (callBack) callBack(response);
@@ -72,7 +77,8 @@ function makeUserSocket(user, socket) {
                     callBack(serverErrorMsg);
                 }
             });
+        next();
     });
 }
 
-module.exports = makeUserSocket;
+module.exports = { makeUserSocket, reqRes, checkStatus };

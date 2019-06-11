@@ -22,20 +22,7 @@
             </v-toolbar-title>
             <v-spacer />
             <v-toolbar-items>
-                <v-btn small flat v-if="!loggedInUser">LogIn</v-btn>
-                <v-btn small flat v-if="!loggedInUser">Register</v-btn>
-                <v-menu v-else left offset-y nudge-bottom>
-                    <template v-slot:activator="{ on }">
-                        <v-btn icon v-on="on">
-                            <v-icon small>$vuetify.icons.user</v-icon>
-                        </v-btn>
-                    </template>
-                    <v-list dense dark>
-                        <v-list-tile v-for="(user, index) in allUsers" :key="index">
-                            {{ user.userName }}
-                        </v-list-tile>
-                    </v-list>
-                </v-menu>
+                <user-actions />
             </v-toolbar-items>
         </v-toolbar>
         <v-content>
@@ -50,9 +37,13 @@
 </template>
 <script>
 import { mapState } from 'vuex';
+import UserActions from '@/components/common/UserActions';
 
 export default {
     name: 'PageLayout',
+    components: {
+        UserActions
+    },
     props: {
         toolbar: {
             type: Boolean
@@ -60,14 +51,12 @@ export default {
     },
     data() {
         return {
-            drawer: true,
-            users: {}
+            drawer: true
         };
     },
     computed: {
         ...mapState('users', {
-            loggedInUserId: state => state.loggedInUserId,
-            allUsers: state => state.users
+            loggedInUser: state => state.loggedInUser
         })
     }
 };

@@ -1,42 +1,51 @@
 /* global io  */
 import Vue from 'vue';
+import './plugins/axios';
 import './plugins/vuetify';
 import App from './App.vue';
 import router from './router';
 import store from './store';
-import ApiInterface from '@/assets/ApiInterface';
-import eventBus from '@/assets/eventBus';
+import ApiInterface from '@/plugins/ApiInterface';
+import eventBus from '@/plugins/eventBus';
 import '@/assets/global.css';
 
-function listeners(socket) {
-    socket.on('users.user-created', (user) => {
-        store.dispatch('users/addUser', user);
-    });
-    socket.on('users.user-updated', (user) => {
-        store.dispatch('users/updateUser', user);
-    });
-    socket.on('users.user-deleted', (user) => {
-        store.dispatch('users/deleteUser', user);
-    });
-}
+const api = new ApiInterface(Vue, store);
 
-Vue.prototype.$socket = io({ path: '/ws', autoConnect: false });
-Vue.prototype.$socket.connect();
-Vue.prototype.$socket.emit('user-logged-in', { userId: 1 }, (foo) => {
-    store.dispatch('users/getAllUsers');
-    listeners(Vue.prototype.$socket);
+function logIn(user) {
+    Vue.prototype.$http.get('/login/', { params: user })
+        .then((response) => {
+            store.dispatch('users/logIn', response.data);
+        })
+        .catch((err) => {
+            eventBus.$emit('user-logged-in-error', err);
+        });
+}
+eventBus.$on('logOut', () => {
+    localStorage.removeItem('user');
+
+    store.dispatch('users/logOut');
 });
 
 eventBus.$on('user-logged-out', () => {
-    // Vue.prototype.$socket.close();
+    api.socket.disconnect();
+    api.setSocket(false);
+});
+
+eventBus.$on('logIn', (loginForm) => {
+    logIn(loginForm);
 });
 
 eventBus.$on('user-logged-in', (user) => {
-    // Vue.prototype.$socket.open();
+    localStorage.user = JSON.stringify(user);
+    const socket = io(`/${user.uid}`, { path: '/ws' });
+    api.setSocket(socket);
 });
-const api = new ApiInterface(Vue);
-store.$api = api;
-Vue.prototype.$api = api;
+
+try {
+    if (localStorage.user) logIn(JSON.parse(localStorage.user));
+} catch (err) { localStorage.removeItem('user'); }
+
+
 Vue.config.productionTip = false;
 
 new Vue({

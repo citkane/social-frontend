@@ -55,7 +55,6 @@ export default {
     },
     computed: {
         ...mapState('users', {
-            loggedInUserId: state => state.loggedInUserId,
             allUsers: state => state.users
         })
     },
