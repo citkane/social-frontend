@@ -8,6 +8,9 @@
                     <v-list-tile :to="`/people`">
                         <h3>People</h3>
                     </v-list-tile>
+                    <v-list-tile :to="`/activities`">
+                        <h3>Social Activities</h3>
+                    </v-list-tile>
                 </v-list>
             </v-navigation-drawer>
         <v-toolbar app clipped-left dark color="#7DC24F">

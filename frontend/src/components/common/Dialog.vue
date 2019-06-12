@@ -4,8 +4,10 @@
             <v-btn
                 :icon="icon || false"
                 :small="small || false"
+                :large="large || false"
                 :flat="flat || false"
                 :color="color"
+                :class="`elevation-${elevation}`"
                 v-on="on">
                 <slot name="button"></slot>
             </v-btn>
@@ -37,17 +39,14 @@ export default {
             type: String,
             required: true
         },
-        icon: {
-            type: Boolean
-        },
-        small: {
-            type: Boolean
-        },
-        flat: {
-            type: Boolean
-        },
-        color: {
-            type: String
+        icon: Boolean,
+        small: Boolean,
+        large: Boolean,
+        flat: Boolean,
+        color: String,
+        elevation: {
+            type: String,
+            default: '0'
         }
     },
     methods: {

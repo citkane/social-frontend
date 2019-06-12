@@ -61,6 +61,7 @@ function reqRes(ownerId, apiPath, action, command, args) {
 function makeUserSocket(user, socket) {
     const { userId } = user;
     socket.use((packet, next) => {
+        if (!packet.length) return;
         let callBack;
         const apiPath = packet.shift();
         const action = packet.shift();

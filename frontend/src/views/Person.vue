@@ -5,9 +5,9 @@
             <span v-if="user">{{ user.userName }}</span>
         </template>
         <template v-slot:toolbarActions v-if="user">
-            <ee-dialog title="Edit Person" icon>
+            <ee-dialog title="Edit Person" icon elevation="7">
                 <template v-slot:button>
-                    <v-icon small>$vuetify.icons.edit</v-icon>
+                    <v-icon small color="primary">$vuetify.icons.edit</v-icon>
                 </template>
                 <template v-slot:content>
                     <person-form :user="user"
@@ -22,9 +22,8 @@
             </ee-dialog>
         </template>
         <v-container fluid id="person" v-if="user">
-            <h2>
-                <span>{{ user.userName }}</span>
-            </h2>
+            <h2>{{ user.realName }}</h2>
+            <div class="spaced">{{ user.about }}</div>
 
         </v-container>
     </page-layout>

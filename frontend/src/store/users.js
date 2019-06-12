@@ -56,20 +56,23 @@ export default {
                 });
         },
         addUser(context, user) {
+            console.log(user);
+            
             const { users } = context.state;
-            users.push(user);
-            context.commit('users', users);
+            console.log(Object.keys(users).length);
+            users[user.uid] = user;
+            console.log(Object.keys(users).length);
+            context.commit('users', { ...users });
         },
-        updateUser(context, updatedUser) {
-            const users = context.state.users.map((user) => {
-                if (user.uid === updatedUser.uid) return updatedUser;
-                return user;
-            });
-            context.commit('users', users);
+        updateUser(context, user) {
+            const { users } = context.state;
+            users[user.uid] = user;
+            context.commit('users', { ...users });
         },
         deleteUser(context, user) {
-            const users = context.state.users.filter(u => u.uid !== user.uid);
-            context.commit('users', users);
+            const { users } = context.state;
+            delete users[user.uid];
+            context.commit('users', { ...users });
         }
     }
 };

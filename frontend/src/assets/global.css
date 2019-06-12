@@ -1,3 +1,6 @@
 .click {
 	cursor: pointer;
 }
+.spaced {
+	white-space: pre;
+}

@@ -8,6 +8,7 @@ Vue.use(Vuetify, {
         user: 'fas fa-user',
         menu: 'fas fa-bars',
         home: 'fas fa-home',
-        edit: 'far fa-edit'
+        edit: 'far fa-edit',
+        plus: 'fas fa-plus-circle'
     }
 });

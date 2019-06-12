@@ -8,8 +8,19 @@ function checkStatus(data) {
 class ApiInterface {
     constructor(Vue, store) {
         this.socket = false;
-        this.builder = (action, path, args = []) => new Promise((resolve, reject) => {
-            if (!this.socket) return reject(new Error('Must be logged in'));
+        this.builder = (action, path, args = []) => new Promise(async (resolve, reject) => {
+            if (!this.socket) { // Give auth handshake a moment on reloads.
+                try {
+                    await new Promise((res, rej) => {
+                        setTimeout(() => {
+                            if (!this.socket) rej();
+                            res();
+                        }, 500);
+                    });
+                } catch (err) {
+                    return reject(new Error('Must be logged in'));
+                }
+            }
             let thisArgs = args;
             const route = path.split('.');
             if (route.length !== 2) reject(new Error('malformed api call'));

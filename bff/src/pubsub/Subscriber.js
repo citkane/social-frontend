@@ -5,37 +5,45 @@ const zmq = require('zmq');
 
 const subscriber = zmq.socket('sub');
 subscriber.connect(`tcp://127.0.0.1:${ports.pubsub}`);
-const subscriptions = [];
+
+let sockets = [];
+let topics = [];
+
+subscriber.on('message', (topic, message) => {
+    const t = topic.toString();
+    if (topics.indexOf(t) < 0) return;
+    let m;
+    try {
+        m = JSON.parse(message.toString());
+    } catch (err) {
+        m = message.toString();
+    } finally {
+        sockets.forEach((socket) => {
+            socket.emit(t, m);
+        });
+    }
+});
 
 class Subscriber {
-    constructor(socket) {
-        this.socket = socket;
-        this.subscriber = subscriber;
-        this.topics = [];
-        subscriber.on('message', (topic, message) => {
-            const t = topic.toString();
-            if (this.topics.indexOf(t) < 0) return;
-            let m;
-            try {
-                m = JSON.parse(message.toString());
-            } catch (err) {
-                m = message.toString();
-            } finally {
-                socket.emit(t, m);
-            }
-        });
+    add(socket) {
+        if (!sockets.find(s => s.id === socket.id)) sockets.push(socket);
+    }
+
+    prune(socket) {
+        sockets = sockets.filter(s => s.id !== socket.id);
+        console.log(sockets.length);
     }
 
     subscribe(topic) {
-        if (subscriptions.indexOf(topic) < 0) {
-            subscriptions.push(topic);
+        if (topics.indexOf(topic) === -1) {
+            topics.push(topic);
             subscriber.subscribe(topic);
         }
-        if (this.topics.indexOf(topic) < 0) this.topics.push(topic);
     }
 
     unsubscribe(topic) {
-        // subscriber.unsubscribe(topic);
+        topics = topics.filter(t => t !== topic);
+        subscriber.unsubscribe(topic);
     }
 }
 

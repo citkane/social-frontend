@@ -9,20 +9,21 @@ const io = require('socket.io')(http, { path: '/ws' });
 const Subscriber = require('./src/pubsub/Subscriber');
 const { makeUserSocket, reqRes, checkStatus } = require('./src/api/proxy');
 
+const subscriber = new Subscriber();
+subscriber.subscribe('users.user-updated');
+subscriber.subscribe('users.user-created');
+subscriber.subscribe('users.user-deleted');
+
 function makeSocket(user) {
+    if (io.nsps[`/${user.uid}`]) return;
     const nsp = io.of(`/${user.uid}`);
     nsp.on('connection', (socket) => {
         console.log(`${user.userName} connected`);
-        socket.on('disconnect', (reason) => {
-            if (reason === 'client namespace disconnect') {
-                console.log(`${user.userName} disconnected`);
-                socket.disconnect(true);
-            }
+        subscriber.add(socket);
+        socket.on('disconnect', () => {
+            console.log(`${user.userName} disconnected`);
+            subscriber.prune(socket);
         });
-        const subscriber = new Subscriber(socket);
-        subscriber.subscribe('users.user-updated');
-        subscriber.subscribe('users.user-created');
-        subscriber.subscribe('users.user-deleted');
         makeUserSocket(user, socket);
     });
 }

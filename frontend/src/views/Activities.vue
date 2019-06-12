@@ -1,25 +1,25 @@
 <template>
     <page-layout toolbar>
-        <template v-slot:toolbarTitle>People</template>
+        <template v-slot:toolbarTitle>Activities</template>
         <template v-slot:toolbarActions>
-            <ee-dialog title="Create Person" flat icon elevation="7">
+            <ee-dialog title="Create an activity" icon elevation="7">
                 <template v-slot:button>
-                    <v-icon small color="primary">fas fa-user-plus</v-icon>
+                    <v-tooltip left>
+                        <template v-slot:activator="{ on }">
+                            <v-icon color="primary" v-on="on">$vuetify.icons.plus</v-icon>
+                        </template>
+                        <span>Suggest a new activity</span>
+                    </v-tooltip>
                 </template>
                 <template v-slot:content>
-                    <person-form
-                        @form-valid="personFormValid"
-                        @form-updated="personFormValue"/>
                 </template>
                 <template v-slot:actions="{ close }">
-                    <v-btn @click="saveUser(close)" color="warning"
-                        :disabled="!isPersonFormValid">save</v-btn>
                 </template>
             </ee-dialog>
         </template>
-        <v-container flex id="people" grid-list-md>
+        <v-container flex id="activities" grid-list-md>
             <v-layout wrap>
-                <v-flex v-for="(user, index) in allUsers" :key="index" md3>
+                <!-- v-flex v-for="(user, index) in allUsers" :key="index" md3>
                     <v-card >
                         <v-card-title @click="goToPerson(user.uid)" class="click">
                             {{ user.realName }}
@@ -27,7 +27,7 @@
                         <v-card-text class="spaced">{{ user.about }}</v-card-text>
                         <v-card-actions></v-card-actions>
                     </v-card>
-                </v-flex>
+                </v-flex -->
             </v-layout>
         </v-container>
     </page-layout>
@@ -35,15 +35,13 @@
 <script>
 import PageLayout from '@/layouts/PageLayout.vue';
 import EeDialog from '@/components/common/Dialog';
-import PersonForm from '@/components/forms/PersonForm';
 import { mapState } from 'vuex';
 
 export default {
     name: 'People',
     components: {
         PageLayout,
-        EeDialog,
-        PersonForm
+        EeDialog
     },
     data() {
         return {
