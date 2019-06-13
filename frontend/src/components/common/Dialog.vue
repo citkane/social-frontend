@@ -17,7 +17,7 @@
                 {{ title }}
             </v-card-title>
             <v-card-text>
-                <slot name="content">this is the text</slot>
+                <slot name="content" v-bind:close = "close">this is the text</slot>
             </v-card-text>
             <v-card-actions>
                 <v-spacer />

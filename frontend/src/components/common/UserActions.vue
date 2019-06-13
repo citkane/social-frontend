@@ -4,8 +4,8 @@
             <template v-slot:button>
                 Login
             </template>
-            <template v-slot:content>
-                <v-form v-model="valid">
+            <template v-slot:content="{ close }">
+                <v-form v-model="valid" @submit.prevent="login(close)" id="login-form">
                     <v-text-field v-model="form.userName" label="Username" required
                         :rules="rules.userName"/>
                     <v-text-field required
@@ -15,10 +15,11 @@
                         :rules="rules.password"/>
                 </v-form>
             </template>
-            <template v-slot:actions="{ close }">
-                <v-btn @click="login(close)" color="warning"
-                    :disabled="!valid">LogIn</v-btn>
+            <template v-slot:actions>
+                <v-btn type="submit" color="warning"
+                    :disabled="!valid" form="login-form">LogIn</v-btn>
             </template>
+
         </ee-dialog>
         <v-btn flat v-if="!loggedInUser">Register</v-btn>
         <v-menu v-else left offset-y nudge-bottom>

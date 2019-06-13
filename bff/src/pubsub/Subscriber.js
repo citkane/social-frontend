@@ -1,10 +1,9 @@
 /* eslint-disable class-methods-use-this */
-// eslint-disable-next-line import/no-extraneous-dependencies
-const ports = require('@social/social-deployment/topology/portMaps'); // installed in parent folder
 const zmq = require('zmq');
 
 const subscriber = zmq.socket('sub');
-subscriber.connect(`tcp://127.0.0.1:${ports.pubsub}`);
+subscriber.connect(`tcp://${__network.pubsub.host}:${__network.pubsub.port}`);
+console.log('subscriber: ', `tcp://${__network.pubsub.host}:${__network.pubsub.port}`);
 
 let sockets = [];
 let topics = [];

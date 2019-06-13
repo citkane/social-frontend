@@ -1,7 +1,4 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-const ports = require('@social/social-deployment/topology/portMaps'); // installed in parent folder
 const zmq = require('zmq');
-
 
 const serverTimeout = 2000;
 const serverErrorMsg = {
@@ -20,7 +17,6 @@ function checkStatus(data) {
 
 function reqRes(ownerId, apiPath, action, command, args) {
     try {
-        const apiPort = ports[apiPath].crud;
         const message = JSON.stringify({
             ownerId,
             action,
@@ -28,7 +24,7 @@ function reqRes(ownerId, apiPath, action, command, args) {
             args
         });
         const requester = zmq.socket('req');
-        requester.connect(`tcp://127.0.0.1:${apiPort}`);
+        requester.connect(`tcp://${__network[apiPath].host}:${__network[apiPath].crud}`);
 
         let promise;
         let timer;

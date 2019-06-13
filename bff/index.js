@@ -1,3 +1,8 @@
+const config = require('config');
+
+// eslint-disable-next-line no-underscore-dangle
+global.__network = config.get('network');
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 const ports = require('@social/social-deployment/topology/portMaps'); // installed in parent folder
 const path = require('path');
@@ -5,7 +10,7 @@ const proxy = require('express-http-proxy');
 const app = require('express')();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http, { path: '/ws' });
-// const ioWildcard = require('socketio-wildcard')();
+
 const Subscriber = require('./src/pubsub/Subscriber');
 const { makeUserSocket, reqRes, checkStatus } = require('./src/api/proxy');
 
@@ -53,6 +58,6 @@ app.get('/login', (req, res) => {
         });
 });
 
-http.listen(ports.bff.static, () => {
-    console.log(`listening on *:${ports.bff.static}`);
+http.listen(ports.bff.static, __network.host, () => {
+    console.log(`listening on http://${__network.host}:${ports.bff.static}`);
 });
