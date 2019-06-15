@@ -41,7 +41,8 @@ class ApiInterface {
             update: (path, args) => this.builder('update', path, args),
             delete: (path, args) => this.builder('delete', path, args),
             socket: this.socket,
-            setSocket: (socket) => { this.socket = socket; api.socket = socket; }
+            setSocket: (socket) => { this.socket = socket; api.socket = socket; },
+            http: Vue.prototype.$http
         };
         store.$api = api;
         Vue.prototype.$api = api;

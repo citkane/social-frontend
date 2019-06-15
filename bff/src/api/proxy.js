@@ -1,5 +1,7 @@
 const zmq = require('zmq');
+const config = require('config');
 
+const network = config.get('network');
 const serverTimeout = 2000;
 const serverErrorMsg = {
     status: 500,
@@ -24,7 +26,7 @@ function reqRes(ownerId, apiPath, action, command, args) {
             args
         });
         const requester = zmq.socket('req');
-        requester.connect(`tcp://${__network[apiPath].host}:${__network[apiPath].crud}`);
+        requester.connect(`tcp://${network[apiPath].host}:${network[apiPath].crud}`);
 
         let promise;
         let timer;

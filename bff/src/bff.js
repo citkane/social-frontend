@@ -1,17 +1,13 @@
 const config = require('config');
-
-// eslint-disable-next-line no-underscore-dangle
-global.__network = config.get('network');
-
 const path = require('path');
 const proxy = require('express-http-proxy');
 const app = require('express')();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http, { path: '/ws' });
-
 const Subscriber = require('./pubsub/Subscriber');
 const { makeUserSocket, reqRes, checkStatus } = require('./api/proxy');
 
+const network = config.get('network');
 const subscriber = new Subscriber();
 subscriber.subscribe('users.user-updated');
 subscriber.subscribe('users.user-created');
@@ -30,7 +26,7 @@ function makeSocket(user) {
         makeUserSocket(user, socket);
     });
 }
-app.use('/img', proxy(`${__network.images.host}:${__network.images.static}`));
+app.use('/img', proxy(`${network.images.host}:${network.images.static}`));
 
 app.get('/socket.io/:fileName', (req, res) => {
     const { fileName } = req.params;
@@ -56,6 +52,6 @@ app.get('/login', (req, res) => {
         });
 });
 
-http.listen(__network.bff.static, __network.bff.host, () => {
-    console.log(`listening on http://${__network.bff.host}:${__network.bff.static}`);
+http.listen(network.bff.static, network.bff.host, () => {
+    console.log(`listening on http://${network.bff.host}:${network.bff.static}`);
 });

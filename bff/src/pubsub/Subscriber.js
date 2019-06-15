@@ -1,9 +1,11 @@
 /* eslint-disable class-methods-use-this */
 const zmq = require('zmq');
+const config = require('config');
 
+const network = config.get('network');
 const subscriber = zmq.socket('sub');
-subscriber.connect(`tcp://${__network.pubsub.host}:${__network.pubsub.port}`);
-console.log('subscriber: ', `tcp://${__network.pubsub.host}:${__network.pubsub.port}`);
+subscriber.connect(`tcp://${network.pubsub.host}:${network.pubsub.port}`);
+console.log('subscriber: ', `tcp://${network.pubsub.host}:${network.pubsub.port}`);
 
 let sockets = [];
 let topics = [];

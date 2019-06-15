@@ -44,7 +44,7 @@
 <script>
 import EeDialog from '@/components/common/Dialog';
 import eventBus from '@/plugins/eventBus';
-import { mapState, mapActions } from 'vuex';
+import { mapState } from 'vuex';
 
 export default {
     name: 'Login',
@@ -75,7 +75,7 @@ export default {
     },
     methods: {
         login(close) {
-            eventBus.$emit('logIn', this.form);
+            this.$store.dispatch('users/logIn', this.form);
             eventBus.$on('user-logged-in', () => {
                 close();
             });
@@ -84,7 +84,7 @@ export default {
             });
         },
         logout() {
-            eventBus.$emit('logOut');
+            this.$store.dispatch('users/logOut');
             this.$router.push('/');
         }
     }
