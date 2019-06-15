@@ -9,8 +9,8 @@ const app = require('express')();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http, { path: '/ws' });
 
-const Subscriber = require('./src/pubsub/Subscriber');
-const { makeUserSocket, reqRes, checkStatus } = require('./src/api/proxy');
+const Subscriber = require('./pubsub/Subscriber');
+const { makeUserSocket, reqRes, checkStatus } = require('./api/proxy');
 
 const subscriber = new Subscriber();
 subscriber.subscribe('users.user-updated');
@@ -34,7 +34,7 @@ app.use('/img', proxy(`${__network.images.host}:${__network.images.static}`));
 
 app.get('/socket.io/:fileName', (req, res) => {
     const { fileName } = req.params;
-    res.sendFile(path.join(__dirname, 'node_modules/socket.io-client/dist', fileName));
+    res.sendFile(path.join(__dirname, '../node_modules/socket.io-client/dist', fileName));
 });
 
 app.get('/login', (req, res) => {

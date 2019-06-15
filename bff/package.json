@@ -2,8 +2,9 @@
   "name": "@social/bff",
   "version": "0.0.0",
   "description": "Social backend for frontend",
-  "main": "index.js",
+  "main": "./src/bff.js",
   "scripts": {
+    "start": "node ./src/bff.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Michael Jonker",
