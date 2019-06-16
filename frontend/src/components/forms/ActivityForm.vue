@@ -1,20 +1,16 @@
 <template>
     <v-form v-model="valid"
-        @submit.prevent="$emit('form-submitted'); resetForm();"
-        ref="personForm">
-        <v-text-field v-model="form.userName" label="Username" required :rules="rules.userName"/>
-        <v-text-field required
-            v-model="form.realName"
-            label="Display Name"
-            :rules="rules.realName"/>
-        <v-textarea v-model="form.about" label="About" />
+        @submit.prevent="$emit('form-submitted'); resetForm()"
+        ref="activityForm">
+        <v-text-field v-model="form.title" label="Activity title" required :rules="rules.title"/>
+        <v-textarea v-model="form.about" label="About the activity" required :rules="rules.about" />
     </v-form>
 </template>
 <script>
 export default {
     name: 'PersonForm',
     props: {
-        user: {
+        activity: {
             type: Object,
             default: () => ({})
         }
@@ -23,23 +19,22 @@ export default {
         return {
             valid: false,
             form: {
-                userName: this.user.userName,
-                realName: this.user.realName,
-                about: this.user.about
+                title: this.activity.title,
+                about: this.activity.about
             },
             rules: {
-                userName: [
-                    v => !!v || 'Username is required'
+                title: [
+                    v => !!v || 'Activity title is required'
                 ],
-                realName: [
-                    v => !!v || 'A real name is required'
+                about: [
+                    v => !!v || 'Something about the activity is required'
                 ]
             }
         };
     },
     computed: {
         mode() {
-            return Object.keys(this.user).length ? 'edit' : 'create';
+            return Object.keys(this.activity).length ? 'edit' : 'create';
         }
     },
     methods: {
@@ -47,7 +42,7 @@ export default {
             Object.keys(this.form).forEach((key) => {
                 this.form[key] = null;
             });
-            if (this.mode === 'create') this.$refs.personForm.reset();
+            if (this.mode === 'create') this.$refs.activityForm.reset();
         }
     },
     watch: {
@@ -60,10 +55,10 @@ export default {
             },
             deep: true
         },
-        user: {
+        activity: {
             handler() {
                 Object.keys(this.form).forEach((key) => {
-                    this.form[key] = this.user[key];
+                    this.form[key] = this.activity[key];
                 });
             },
             deep: true

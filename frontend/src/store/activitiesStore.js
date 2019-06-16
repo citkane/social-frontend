@@ -24,6 +24,16 @@ export default {
             activities[activity.uid] = activity;
             context.commit('activities', { ...activities });
         },
+        updateActivity(context, activity) {
+            const { activities } = context.state;
+            activities[activity.uid] = activity;
+            context.commit('activities', { ...activities });
+        },
+        deleteActivity(context, activity) {
+            const { activities } = context.state;
+            delete activities[activity.uid];
+            context.commit('activities', { ...activities });
+        },
         populate() {
             const { socket } = this.$api;
             socket.on('activities.activity-created', (activity) => {
@@ -33,8 +43,10 @@ export default {
                 this.dispatch('activities/updateActivity', activity);
             });
             socket.on('activities.activity-deleted', (activity) => {
+                console.log(activity);
                 this.dispatch('activities/deleteActivity', activity);
             });
+            this.dispatch('activities/getAllActivities');
         },
         cleanUp(context) {
             const { socket } = this.$api;

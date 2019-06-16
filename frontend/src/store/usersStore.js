@@ -19,8 +19,9 @@ export default {
     actions: {
         logOut() {
             Object.keys(this.state).forEach((module) => {
-                this.dispatch(`${module}/cleanUp`);
+                if (module !== 'users') this.dispatch(`${module}/cleanUp`);
             });
+            this.dispatch('users/cleanUp');
             eventBus.$emit('user-logged-out');
         },
         logIn(context, user) {

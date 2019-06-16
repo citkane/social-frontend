@@ -9,13 +9,17 @@
                 <template v-slot:button>
                     <v-icon small color="primary">$vuetify.icons.edit</v-icon>
                 </template>
-                <template v-slot:content>
-                    <person-form :user="user"
+                <template v-slot:content="{ close }">
+                    <person-form id="personForm"
+                        v-if="user"
+                        :user="user"
+                        @form-submitted="saveUser(close)"
                         @form-valid="personFormValid"
                         @form-updated="personFormValue"/>
                 </template>
                 <template v-slot:actions="{ close }">
-                    <v-btn @click="saveUser(close)" color="warning"
+                    <v-btn type="submit" form="personForm"
+                        color="warning"
                         :disabled="!isPersonFormValid">save</v-btn>
                     <v-btn @click="deleteUser(close)" dark color="red">delete</v-btn>
                 </template>
@@ -43,7 +47,6 @@ export default {
     },
     data() {
         return {
-            userId: this.$route.params.uid,
             user: false,
             isPersonFormValid: false,
             personForm: {}
@@ -51,19 +54,25 @@ export default {
     },
     computed: {
         ...mapState('users', {
-            loggedInUserId: state => state.loggedInUserId,
+            loggedInUser: state => state.loggedInUser,
             allUsers: state => state.users
-        })
+        }),
+        userId() {
+            return this.$route.params.uid;
+        }
     },
     methods: {
         saveUser(close) {
-            this.$api.update('users.user', this.personForm)
+            Object.keys(this.personForm).forEach((key) => {
+                this.user[key] = this.personForm[key];
+            });
+            this.$api.update('users.user', this.user)
                 .then((updatedUser) => {
                     this.user = updatedUser;
                     close();
                 })
                 .catch((err) => {
-                    console.log(err);
+                    alert(err);
                 });
         },
         deleteUser(close) {
@@ -81,16 +90,24 @@ export default {
         },
         personFormValue(form) {
             this.personForm = form;
+        },
+        loadUser() {
+            this.$api.read('users.user', this.userId)
+                .then((user) => {
+                    this.user = user;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+    },
+    watch: {
+        userId() {
+            this.loadUser();
         }
     },
     beforeMount() {
-        this.$api.read('users.user', this.userId)
-            .then((user) => {
-                this.user = user;
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        this.loadUser();
     }
 };
 </script>

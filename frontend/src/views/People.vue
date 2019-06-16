@@ -6,13 +6,14 @@
                 <template v-slot:button>
                     <v-icon small color="primary">fas fa-user-plus</v-icon>
                 </template>
-                <template v-slot:content>
-                    <person-form
+                <template v-slot:content="{ close }">
+                    <person-form id="personForm"
                         @form-valid="personFormValid"
-                        @form-updated="personFormValue"/>
+                        @form-updated="personFormValue"
+                        @form-submitted="saveUser(close)"/>
                 </template>
-                <template v-slot:actions="{ close }">
-                    <v-btn @click="saveUser(close)" color="warning"
+                <template v-slot:actions>
+                    <v-btn type="submit" form="personForm" color="warning"
                         :disabled="!isPersonFormValid">save</v-btn>
                 </template>
             </ee-dialog>

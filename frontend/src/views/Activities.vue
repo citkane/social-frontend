@@ -11,23 +11,29 @@
                         <span>Suggest a new activity</span>
                     </v-tooltip>
                 </template>
-                <template v-slot:content>
+                <template v-slot:content="{ close }">
+                    <activity-form id="activityForm"
+                        @form-valid="activityFormValid"
+                        @form-updated="activityFormValue"
+                        @form-submitted="saveActivity(close)"/>
                 </template>
-                <template v-slot:actions="{ close }">
+                <template v-slot:actions>
+                    <v-btn type="submit" form="activityForm" color="warning"
+                        :disabled="!isActivityFormValid">save</v-btn>
                 </template>
             </ee-dialog>
         </template>
         <v-container flex id="activities" grid-list-md>
             <v-layout wrap>
-                <!-- v-flex v-for="(user, index) in allUsers" :key="index" md3>
+                <v-flex v-for="(activity, index) in allActivities" :key="index" md3>
                     <v-card >
-                        <v-card-title @click="goToPerson(user.uid)" class="click">
-                            {{ user.realName }}
+                        <v-card-title @click="goToActivity(activity.uid)" class="click">
+                            {{ activity.title }}
                         </v-card-title>
-                        <v-card-text class="spaced">{{ user.about }}</v-card-text>
+                        <v-card-text class="spaced">{{ activity.about }}</v-card-text>
                         <v-card-actions></v-card-actions>
                     </v-card>
-                </v-flex -->
+                </v-flex>
             </v-layout>
         </v-container>
     </page-layout>
@@ -35,41 +41,43 @@
 <script>
 import PageLayout from '@/layouts/PageLayout.vue';
 import EeDialog from '@/components/common/Dialog';
+import ActivityForm from '@/components/forms/ActivityForm';
 import { mapState } from 'vuex';
 
 export default {
     name: 'People',
     components: {
         PageLayout,
-        EeDialog
+        EeDialog,
+        ActivityForm
     },
     data() {
         return {
             drawer: true,
-            users: {},
-            isPersonFormValid: false,
-            personForm: {}
+            activities: {},
+            isActivityFormValid: false,
+            activityForm: {}
         };
     },
     computed: {
-        ...mapState('users', {
-            allUsers: state => state.users
+        ...mapState('activities', {
+            allActivities: state => state.activities
         })
     },
     methods: {
-        goToPerson(uid) {
-            this.$router.push(`/people/${uid}`);
+        goToActivity(uid) {
+            this.$router.push(`/activities/${uid}`);
         },
-        personFormValid(valid) {
-            this.isPersonFormValid = valid;
+        activityFormValid(valid) {
+            this.isActivityFormValid = valid;
         },
-        personFormValue(form) {
-            this.personForm = form;
+        activityFormValue(form) {
+            this.activityForm = form;
         },
-        saveUser(close) {
-            this.$api.create('users.user', this.personForm)
+        saveActivity(close) {
+            this.$api.create('activities.activity', this.activityForm)
                 .then(() => {
-                    this.personForm = {};
+                    this.activityForm = {};
                     close();
                 })
                 .catch((err) => {

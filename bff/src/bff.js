@@ -12,6 +12,9 @@ const subscriber = new Subscriber();
 subscriber.subscribe('users.user-updated');
 subscriber.subscribe('users.user-created');
 subscriber.subscribe('users.user-deleted');
+subscriber.subscribe('activities.activity-created');
+subscriber.subscribe('activities.activity-updated');
+subscriber.subscribe('activities.activity-deleted');
 
 function makeSocket(user) {
     if (io.nsps[`/${user.uid}`]) return;
