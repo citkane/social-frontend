@@ -20,11 +20,15 @@
         </template>
         <v-container flex id="people" grid-list-md>
             <v-layout wrap>
-                <v-flex v-for="(user, index) in allUsers" :key="index" md3>
-                    <v-card >
-                        <v-card-title @click="goToPerson(user.uid)" class="click">
-                            {{ user.realName }}
-                        </v-card-title>
+                <v-flex v-for="(user, index) in allUsers" :key="index"
+                md3
+                class="d-flex column">
+                    <v-card>
+                        <v-toolbar color="teal lighten-3" flat @click="goToPerson(user.uid)" class="click">
+                            <v-toolbar-title>
+                                {{ user.realName }}
+                            </v-toolbar-title>
+                        </v-toolbar>
                         <v-card-text class="spaced">{{ user.about }}</v-card-text>
                         <v-card-actions></v-card-actions>
                     </v-card>

@@ -9,6 +9,8 @@ Vue.use(Vuetify, {
         menu: 'fas fa-bars',
         home: 'fas fa-home',
         edit: 'far fa-edit',
-        plus: 'fas fa-plus-circle'
+        plus: 'fas fa-plus-circle',
+        arrow_down: 'fas fa-angle-down',
+        arrow_up: 'fas fa-angle-up'
     }
 });

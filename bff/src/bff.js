@@ -7,15 +7,23 @@ const io = require('socket.io')(http, { path: '/ws' });
 const Subscriber = require('./pubsub/Subscriber');
 const { makeUserSocket, reqRes, checkStatus } = require('./api/proxy');
 
+/** Communicate all backend subscriptions to be passed to frontend */
 const network = config.get('network');
 const subscriber = new Subscriber();
-subscriber.subscribe('users.user-updated');
-subscriber.subscribe('users.user-created');
-subscriber.subscribe('users.user-deleted');
-subscriber.subscribe('activities.activity-created');
-subscriber.subscribe('activities.activity-updated');
-subscriber.subscribe('activities.activity-deleted');
+subscriber.subscribe('bff.makesubscriptions');
+Object.keys(config.get('network')).forEach((service) => {
+    reqRes(null, service, 'read', 'bffSubscriptions', [])
+        .then((response) => {
+            if (response.status !== 200) return;
+            response.payload.forEach((topic) => {
+                console.log(topic);
+                subscriber.subscribe(topic);
+            });
+        })
+        .catch(err => err);
+});
 
+/** Create a websocket for authenticated frontend session */
 function makeSocket(user) {
     if (io.nsps[`/${user.uid}`]) return;
     const nsp = io.of(`/${user.uid}`);
@@ -29,13 +37,17 @@ function makeSocket(user) {
         makeUserSocket(user, socket);
     });
 }
+
+/** proxy static assets to microservices */
 app.use('/img', proxy(`${network.images.host}:${network.images.static}`));
 
+/** Serve the static socket.io code to the client */
 app.get('/socket.io/:fileName', (req, res) => {
     const { fileName } = req.params;
     res.sendFile(path.join(__dirname, '../node_modules/socket.io-client/dist', fileName));
 });
 
+/** Do session authentication queries */
 app.get('/login', (req, res) => {
     const { userName, password } = req.query;
     reqRes('admin', 'users', 'read', 'userByName', [userName])

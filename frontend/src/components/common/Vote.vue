@@ -1,23 +1,93 @@
 <template>
-    <div>
-        <v-icon @click="$emit('thumb', '+')" class="thumb up">fas fa-thumbs-up</v-icon>
-        <v-icon @click="$emit('thumb', '-')" class="thumb down">fas fa-thumbs-down</v-icon>
-    </div>
+    <v-layout align-center>
+        <v-icon @click="vote('+')" class="thumb up" :class="classes['+']" :color="color['+']">
+            fas fa-thumbs-up
+        </v-icon>
+        <span class="total title text-xs-center">{{ votes.total }}</span>
+        <v-icon @click="vote('-')" class="thumb down" :class="classes['-']" :color="color['-']">
+            fas fa-thumbs-down
+        </v-icon>
+    </v-layout>
 </template>
+
+<script>
+export default {
+    name: 'Vote',
+    props: {
+        entityId: {
+            type: String,
+            required: true
+        }
+    },
+    data() {
+        return {
+            votes: {}
+        };
+    },
+    computed: {
+        classes() {
+            const classes = { '+': 'active', '-': 'active' };
+            if (this.votes.voted) classes[this.votes.voted] = '';
+            return classes;
+        },
+        color() {
+            const color = { '+': 'secondary', '-': 'secondary' };
+            if (this.votes.voted) color[this.votes.voted] = 'blue-grey lighten-4';
+            return color;
+        }
+    },
+    methods: {
+        vote(dir) {
+            if (this.votes.voted && this.votes.voted === dir) return;
+            console.log(dir);
+            this.$api.update('voting.vote', [this.entityId, dir])
+                .catch((err) => {
+                    console.error(err.message);
+                });
+        },
+        getVotes() {
+            this.$api.read('voting.votes', this.entityId)
+                .then((votes) => {
+                    this.votes = votes;
+                })
+                .catch((err) => {
+                    console.error(err.message);
+                });
+        }
+    },
+    mounted() {
+        console.log('mounted');
+        this.getVotes();
+        this.$api.socket.on('voting-voted', (entityId) => {
+            console.log(entityId, this.entityId);
+            if (entityId === this.entityId) this.getVotes();
+        });
+    },
+    beforeDestroy() {
+        this.$api.socket.off('voting-voted');
+        console.log('socketoff');
+    }
+
+};
+</script>
+
 
 <style lang="scss" scoped>
     .thumb {
-        position: relative;
-        top: 4px;
-        cursor: pointer;
         padding: 5px;
+        cursor: default!important;
     }
     .thumb.up {
         transform: scale(-1, 1);
-        top: -5px;
+        margin-bottom:9px;
     }
-    .thumb:hover {
-        caret-color: #E0F2F1!important;
-        color: #E0F2F1!important;
+    .thumb.down {
+        margin-top:9px;
+    }
+    .thumb.active {
+        cursor: pointer!important;
+    };
+    .total {
+        min-width:30px;
     }
 </style>

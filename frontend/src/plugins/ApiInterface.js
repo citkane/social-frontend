@@ -15,7 +15,7 @@ class ApiInterface {
                         setTimeout(() => {
                             if (!this.socket) rej();
                             res();
-                        }, 500);
+                        }, 1000);
                     });
                 } catch (err) {
                     return reject(new Error('Must be logged in'));

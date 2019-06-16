@@ -2,7 +2,7 @@
     <page-layout toolbar>
         <template v-slot:toolbarTitle>Activities</template>
         <template v-slot:toolbarActions>
-            <ee-dialog title="Create an activity" icon elevation="7">
+            <ee-dialog title="Create an activity" icon elevation="7" :stepped="2" :width="700">
                 <template v-slot:button>
                     <v-tooltip left>
                         <template v-slot:activator="{ on }">
@@ -11,8 +11,9 @@
                         <span>Suggest a new activity</span>
                     </v-tooltip>
                 </template>
-                <template v-slot:content="{ close }">
+                <template v-slot:frameless-content="{ close, step }">
                     <activity-form id="activityForm"
+                        :step="step"
                         @form-valid="activityFormValid"
                         @form-updated="activityFormValue"
                         @form-submitted="saveActivity(close)"/>
@@ -25,18 +26,20 @@
         </template>
         <v-container flex id="activities" grid-list-md>
             <v-layout wrap>
-                <v-flex v-for="(activity, index) in allActivities" :key="index" md3>
-                    <activity-card :activityId="activity.uid" />
+                <v-flex v-for="(activity, index) in allActivities" :key="index"
+                    md3
+                    class="d-flex">
+                    <activity-card :activityId="activity.uid"/>
                 </v-flex>
             </v-layout>
         </v-container>
     </page-layout>
 </template>
 <script>
-import PageLayout from '@/layouts/PageLayout.vue';
-import EeDialog from '@/components/common/Dialog';
-import ActivityForm from '@/components/forms/ActivityForm';
-import ActivityCard from '@/components/activities/ActivityCard';
+import PageLayout from '@/layouts/PageLayout';
+import EeDialog from '@/components/common/Dialog.vue';
+import ActivityForm from '@/components/forms/ActivityForm.vue';
+import ActivityCard from '@/components/activities/ActivityCard.vue';
 import { mapState } from 'vuex';
 
 export default {

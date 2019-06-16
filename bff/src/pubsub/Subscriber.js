@@ -10,22 +10,31 @@ console.log('subscriber: ', `tcp://${network.pubsub.host}:${network.pubsub.port}
 let sockets = [];
 let topics = [];
 
-subscriber.on('message', (topic, message) => {
-    const t = topic.toString();
-    if (topics.indexOf(t) < 0) return;
-    let m;
-    try {
-        m = JSON.parse(message.toString());
-    } catch (err) {
-        m = message.toString();
-    } finally {
-        sockets.forEach((socket) => {
-            socket.emit(t, m);
+class Subscriber {
+    constructor() {
+        subscriber.on('message', (topic, message) => {
+            const t = topic.toString();
+            if (topics.indexOf(t) < 0) return;
+            let m;
+            try {
+                m = JSON.parse(message.toString());
+                if (t === 'bff.makesubscriptions') {
+                    m.forEach((newTopic) => {
+                        this.subscribe(newTopic);
+                    });
+                }
+            } catch (err) {
+                m = message.toString();
+            } finally {
+                if (t !== 'bff.makesubscriptions') {
+                    sockets.forEach((socket) => {
+                        socket.emit(t, m);
+                    });
+                }
+            }
         });
     }
-});
 
-class Subscriber {
     add(socket) {
         if (!sockets.find(s => s.id === socket.id)) sockets.push(socket);
     }

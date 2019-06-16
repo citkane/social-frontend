@@ -1,14 +1,23 @@
 <template>
-    <v-card >
-        <v-toolbar color="teal" dark class="lighten-2">
-            <v-spacer />
-            <Vote @thumb="vote"/>
+    <v-card>
+        <v-toolbar color="teal lighten-3" flat dark>
+            <div @click="goToActivity(activity.uid)" class="click title font-weight-regular">
+                {{ activity.title }}
+            </div>
         </v-toolbar>
-        <v-card-title @click="goToActivity(activity.uid)" class="click headline">
-            {{ activity.title }}
-        </v-card-title>
-        <v-card-text class="spaced">{{ activity.about }}</v-card-text>
-        <v-card-actions></v-card-actions>
+        <v-slide-y-transition>
+            <v-card-text v-show="show" class="spaced">{{ activity.about }}</v-card-text>
+        </v-slide-y-transition>
+        <div class="grow"></div>
+        <v-divider />
+        <v-card-actions>
+            <Vote :entityId="activityId" class="ml-1"/>
+            <v-spacer></v-spacer>
+            <v-btn icon @click="show = !show">
+                <v-icon small>{{ show ? $vuetify.icons.arrow_up : $vuetify.icons.arrow_down }}</v-icon>
+            </v-btn>
+        </v-card-actions>
+
     </v-card>
 </template>
 
@@ -26,6 +35,11 @@ export default {
             type: String,
             required: true
         }
+    },
+    data() {
+        return {
+            show: false
+        };
     },
     computed: {
         ...mapState('activities', {
@@ -45,3 +59,11 @@ export default {
     }
 };
 </script>
+
+<style lang="scss" scoped>
+    .v-card {
+        display: flex;
+        flex-direction: column;
+    }
+
+</style>

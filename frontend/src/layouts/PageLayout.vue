@@ -13,7 +13,7 @@
                     </v-list-tile>
                 </v-list>
             </v-navigation-drawer>
-        <v-toolbar app clipped-left dark color="#7DC24F">
+        <v-toolbar app clipped-left dark color="light-green darken-1">
             <v-btn icon to="/">
                 <v-icon small>$vuetify.icons.home</v-icon>
             </v-btn>
@@ -30,10 +30,10 @@
         </v-toolbar>
         <v-content>
             <v-toolbar v-if="toolbar" dense>
-                    <h3><slot name="toolbarTitle"></slot></h3>
-                    <v-spacer />
-                    <slot name="toolbarActions"></slot>
-                </v-toolbar>
+                <v-toolbar-title><slot name="toolbarTitle"></slot></v-toolbar-title>
+                <v-spacer />
+                <v-toolbar-items><slot name="toolbarActions"></slot></v-toolbar-items>
+            </v-toolbar>
             <slot></slot>
         </v-content>
     </v-app>

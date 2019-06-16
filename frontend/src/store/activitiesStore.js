@@ -43,7 +43,6 @@ export default {
                 this.dispatch('activities/updateActivity', activity);
             });
             socket.on('activities.activity-deleted', (activity) => {
-                console.log(activity);
                 this.dispatch('activities/deleteActivity', activity);
             });
             this.dispatch('activities/getAllActivities');

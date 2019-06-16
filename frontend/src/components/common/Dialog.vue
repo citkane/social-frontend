@@ -13,16 +13,19 @@
             </v-btn>
         </template>
         <v-card>
-            <v-card-title primary-title class="headline secondary lighten-4">
+            <v-card-title primary-title class="headline secondary lighten-5 primary--text">
                 {{ title }}
             </v-card-title>
+            <slot name="frameless-content" v-bind:close = "close" v-bind:step="step"></slot>
             <v-card-text>
-                <slot name="content" v-bind:close = "close">this is the text</slot>
+                <slot name="content" v-bind:close = "close"></slot>
             </v-card-text>
             <v-card-actions>
-                <v-spacer />
-                <slot name="actions" v-bind:close = "close"></slot>
                 <v-btn color="success" @click="close">cancel</v-btn>
+                <slot name="actions" v-bind:close = "close" v-bind:step="step"></slot>
+                <v-spacer />
+                <v-btn @click="step -= 1" v-if="stepped && step > 1">previous</v-btn>
+                <v-btn @click="step += 1" v-if="stepped && step < stepped">next</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -47,17 +50,19 @@ export default {
         elevation: {
             type: String,
             default: '0'
-        }
+        },
+        stepped: Number
+    },
+    data() {
+        return {
+            dialog: false,
+            step: 1
+        };
     },
     methods: {
         close() {
             this.dialog = false;
         }
-    },
-    data() {
-        return {
-            dialog: false
-        };
     }
 };
 </script>

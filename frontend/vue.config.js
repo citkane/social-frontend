@@ -1,6 +1,8 @@
 const hostname = process.env.BFF_STATICPORT || '127.0.0.1';
 
 module.exports = {
+    runtimeCompiler: true,
+
     devServer: {
         proxy: {
             '/ws/*': {
@@ -25,6 +27,5 @@ module.exports = {
                 changeOrigin: true
             }
         }
-    },
-    runtimeCompiler: true
+    }
 };
