@@ -26,13 +26,7 @@
         <v-container flex id="activities" grid-list-md>
             <v-layout wrap>
                 <v-flex v-for="(activity, index) in allActivities" :key="index" md3>
-                    <v-card >
-                        <v-card-title @click="goToActivity(activity.uid)" class="click">
-                            {{ activity.title }}
-                        </v-card-title>
-                        <v-card-text class="spaced">{{ activity.about }}</v-card-text>
-                        <v-card-actions></v-card-actions>
-                    </v-card>
+                    <activity-card :activityId="activity.uid" />
                 </v-flex>
             </v-layout>
         </v-container>
@@ -42,6 +36,7 @@
 import PageLayout from '@/layouts/PageLayout.vue';
 import EeDialog from '@/components/common/Dialog';
 import ActivityForm from '@/components/forms/ActivityForm';
+import ActivityCard from '@/components/activities/ActivityCard';
 import { mapState } from 'vuex';
 
 export default {
@@ -49,7 +44,8 @@ export default {
     components: {
         PageLayout,
         EeDialog,
-        ActivityForm
+        ActivityForm,
+        ActivityCard
     },
     data() {
         return {
@@ -65,9 +61,6 @@ export default {
         })
     },
     methods: {
-        goToActivity(uid) {
-            this.$router.push(`/activities/${uid}`);
-        },
         activityFormValid(valid) {
             this.isActivityFormValid = valid;
         },
