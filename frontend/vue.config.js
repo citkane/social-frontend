@@ -25,5 +25,7 @@ module.exports = {
                 changeOrigin: true
             }
         }
-    }
+    },
+
+    runtimeCompiler: true
 };

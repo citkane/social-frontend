@@ -33,7 +33,7 @@
     </page-layout>
 </template>
 <script>
-import PageLayout from '@/layouts/PageLayout.vue';
+import PageLayout from '@/layouts/PageLayout';
 import EeDialog from '@/components/common/Dialog';
 import PersonForm from '@/components/forms/PersonForm';
 import { mapState } from 'vuex';

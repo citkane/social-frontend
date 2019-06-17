@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import PageLayout from '@/layouts/PageLayout.vue';
+import PageLayout from '@/layouts/PageLayout';
 
 export default {
     name: 'Home',

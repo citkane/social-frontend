@@ -8,7 +8,5 @@
   },
   "author": "Michael Jonker",
   "license": "UNLICENSED",
-  "dependencies": {
-    "@social/social-deployment": "git+https://git@github.com/citkane/social-deployment.git"
-  }
+  "dependencies": {}
 }

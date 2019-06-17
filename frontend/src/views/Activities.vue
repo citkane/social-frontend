@@ -37,9 +37,9 @@
 </template>
 <script>
 import PageLayout from '@/layouts/PageLayout';
-import EeDialog from '@/components/common/Dialog.vue';
-import ActivityForm from '@/components/forms/ActivityForm.vue';
-import ActivityCard from '@/components/activities/ActivityCard.vue';
+import EeDialog from '@/components/common/Dialog';
+import ActivityForm from '@/components/forms/ActivityForm';
+import ActivityCard from '@/components/activities/ActivityCard';
 import { mapState } from 'vuex';
 
 export default {

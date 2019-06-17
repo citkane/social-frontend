@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-const zmq = require('zmq');
+const zmq = require('zeromq');
 const config = require('config');
 
 const network = config.get('network');
