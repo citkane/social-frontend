@@ -11,7 +11,7 @@
         <div class="grow"></div>
         <v-divider />
         <v-card-actions>
-            <Vote :entityId="activityId" class="ml-1"/>
+            <Vote :entityId="activityId" class="ml-1" @voted="vote"/>
             <v-spacer></v-spacer>
             <v-btn icon @click="show = !show">
                 <v-icon small>{{ show ? $vuetify.icons.arrow_up : $vuetify.icons.arrow_down }}</v-icon>
@@ -53,8 +53,8 @@ export default {
         goToActivity(uid) {
             this.$router.push(`/activities/${uid}`);
         },
-        vote(foo) {
-            alert(foo);
+        vote(votes) {
+            this.$emit('voted', { votes, activityId: this.activityId });
         }
     }
 };

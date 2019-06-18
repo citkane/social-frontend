@@ -39,7 +39,6 @@ export default {
     methods: {
         vote(dir) {
             if (this.votes.voted && this.votes.voted === dir) return;
-            console.log(dir);
             this.$api.update('voting.vote', [this.entityId, dir])
                 .catch((err) => {
                     console.error(err.message);
@@ -49,6 +48,7 @@ export default {
             this.$api.read('voting.votes', this.entityId)
                 .then((votes) => {
                     this.votes = votes;
+                    this.$emit('voted', this.votes.total);
                 })
                 .catch((err) => {
                     console.error(err.message);
@@ -56,10 +56,8 @@ export default {
         }
     },
     mounted() {
-        console.log('mounted');
         this.getVotes();
         this.$api.socket.on('voting-voted', (entityId) => {
-            console.log(entityId, this.entityId);
             if (entityId === this.entityId) this.getVotes();
         });
     },

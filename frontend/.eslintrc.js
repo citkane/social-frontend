@@ -22,6 +22,11 @@ module.exports = {
     }]
   },
   parserOptions: {
-    parser: 'babel-eslint',
+    parser: 'babel-eslint'
   },
+  settings: {
+    "import/resolver": {
+      "babel-module": {}
+    }
+  }
 };

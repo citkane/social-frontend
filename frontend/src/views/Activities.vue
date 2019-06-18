@@ -1,5 +1,6 @@
 <template>
     <page-layout toolbar>
+        {{ orderByVote}}
         <template v-slot:toolbarTitle>Activities</template>
         <template v-slot:toolbarActions>
             <ee-dialog title="Create an activity" icon elevation="7" :stepped="2" :width="700">
@@ -28,14 +29,16 @@
             <v-layout wrap>
                 <v-flex v-for="(activity, index) in allActivities" :key="index"
                     md3
-                    class="d-flex">
-                    <activity-card :activityId="activity.uid"/>
+                    class="d-flex"
+                    :style="{ order: orderByVote[activity.uid] }">
+                    <activity-card :activityId="activity.uid" @voted="vote"/>
                 </v-flex>
             </v-layout>
         </v-container>
     </page-layout>
 </template>
 <script>
+import Vue from 'vue';
 import PageLayout from '@/layouts/PageLayout';
 import EeDialog from '@/components/common/Dialog';
 import ActivityForm from '@/components/forms/ActivityForm';
@@ -55,7 +58,8 @@ export default {
             drawer: true,
             activities: {},
             isActivityFormValid: false,
-            activityForm: {}
+            activityForm: {},
+            orderByVote: {}
         };
     },
     computed: {
@@ -79,6 +83,10 @@ export default {
                 .catch((err) => {
                     console.log(err);
                 });
+        },
+        vote(data) {
+            Vue.set(this.orderByVote, data.activityId, data.votes);
+            console.log(this.orderByVote);
         }
     }
 };
