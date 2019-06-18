@@ -5,28 +5,17 @@ module.exports = {
   },
   extends: [
     'plugin:vue/essential',
-    '@vue/airbnb',
+    '@vue/airbnb'
   ],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'indent': ['error', 4],
     'comma-dangle': ['error', 'never'],
-    'import/extensions': ['error', 'always', {
-      js: 'never',
-      mjs: 'never',
-      jsx: 'never',
-      ts: 'never',
-      tsx: 'never',
-      vue: 'never'
-    }]
+    'import/no-unresolved': 'off',
+    'import/extensions': ['error', { vue: 'never' }]
   },
   parserOptions: {
     parser: 'babel-eslint'
-  },
-  settings: {
-    "import/resolver": {
-      "babel-module": {}
-    }
   }
 };
