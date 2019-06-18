@@ -16,6 +16,14 @@ module.exports = {
     'import/extensions': ['error', { vue: 'never' }]
   },
   parserOptions: {
-    parser: 'babel-eslint'
+    parser: 'babel-eslint',
+    plugins: 'vue'
+  },
+  /*
+  settings: {
+    'import/resolver': {
+        'babel-module': {}
+    }
   }
+  */
 };
