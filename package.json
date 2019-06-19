@@ -1,5 +1,5 @@
 {
-  "name": "social-frontend",
+  "name": "@social/frontend",
   "version": "0.0.0",
   "description": "Frontend gui and bff for Social",
   "main": "index.js",
