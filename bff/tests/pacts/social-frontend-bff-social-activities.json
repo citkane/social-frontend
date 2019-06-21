@@ -1,0 +1,41 @@
+{
+  "consumer": {
+    "name": "social-frontend-bff"
+  },
+  "provider": {
+    "name": "social-activities"
+  },
+  "messages": [
+    {
+      "description": "activities.read.bffSubscriptions",
+      "providerStates": [
+
+      ],
+      "contents": {
+        "status": 200,
+        "payload": [
+
+        ]
+      },
+      "matchingRules": {
+        "body": {
+          "$.payload": {
+            "matchers": [
+              {
+                "match": "type"
+              }
+            ]
+          }
+        }
+      },
+      "metaData": {
+        "content-type": "application/json"
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "3.0.0"
+    }
+  }
+}

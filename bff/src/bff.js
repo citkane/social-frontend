@@ -11,18 +11,18 @@ const { makeUserSocket, reqRes, checkStatus } = require('./api/proxy');
 const network = config.get('network');
 const subscriber = new Subscriber();
 subscriber.subscribe('bff.makesubscriptions');
-Object.keys(config.get('network')).forEach((service) => {
+Object.keys(network).forEach((service) => {
+    if (service === 'bff' || !network[service].publish || !network[service].crud) return;
     reqRes(null, service, 'read', 'bffSubscriptions', [])
         .then((response) => {
             if (response.status !== 200) return;
             response.payload.forEach((topic) => {
-                console.log(topic);
+                console.log(`bff is subscribed to ${topic}`);
                 subscriber.subscribe(topic);
             });
         })
         .catch(err => err);
 });
-
 /** Create a websocket for authenticated frontend session */
 function makeSocket(user) {
     if (io.nsps[`/${user.uid}`]) return;
