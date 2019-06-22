@@ -12,13 +12,13 @@ const network = config.get('network');
 const subscriber = new Subscriber();
 subscriber.subscribe('bff.makesubscriptions');
 Object.keys(network).forEach((service) => {
-    if (service === 'bff' || !network[service].publish || !network[service].crud) return;
+    if (service === 'bff' || service === 'persistance') return;
+    if (!network[service].publish || !network[service].crud) return;
     reqRes(null, service, 'read', 'bffSubscriptions', [])
         .then((response) => {
             if (response.status !== 200) return;
             response.payload.forEach((topic) => {
-                console.log(`bff is subscribed to ${topic}`);
-                subscriber.subscribe(topic);
+                if (topic) subscriber.subscribe(topic);
             });
         })
         .catch(err => err);
@@ -39,7 +39,7 @@ function makeSocket(user) {
 }
 
 /** proxy static assets to microservices */
-app.use('/img', proxy(`${network.images.host}:${network.images.static}`));
+// app.use('/img', proxy(`${network.images.host}:${network.images.static}`));
 
 /** Serve the static socket.io code to the client */
 app.get('/socket.io/:fileName', (req, res) => {
@@ -67,6 +67,18 @@ app.get('/login', (req, res) => {
         });
 });
 
+const connectionUrl = `http://${network.bff.host}:${network.bff.static}`;
 http.listen(network.bff.static, network.bff.host, () => {
-    console.log(`listening on http://${network.bff.host}:${network.bff.static}`);
+    console.log(`listening on ${connectionUrl}`);
 });
+
+function gracefulShutdown() {
+    console.log('Gracefully shutting down social-frontend-bff');
+    process.exit();
+}
+
+module.exports = {
+    makeSocket,
+    gracefulShutdown,
+    connectionUrl
+};

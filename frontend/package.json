@@ -1,16 +1,19 @@
 {
   "name": "frontend",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test:e2e": "vue-cli-service test:e2e",
-    "test:unit": "vue-cli-service test:unit"
+    "test:unit": "vue-cli-service test:unit",
+    "test:consumer": "NODE_ENV=test mocha ./tests/consumer/**/*.pact.js",
+    "test:publish": "NODE_ENV=test node ./tests/publishPacts"
   },
   "dependencies": {
     "axios": "^0.19.0",
+    "config": "^3.1.0",
     "core-js": "^2.6.5",
     "vue": "^2.6.10",
     "vue-axios": "^2.1.4",

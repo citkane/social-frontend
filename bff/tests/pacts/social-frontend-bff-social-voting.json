@@ -14,12 +14,19 @@
       "contents": {
         "status": 200,
         "payload": [
-
+          "a string"
         ]
       },
       "matchingRules": {
         "body": {
           "$.payload": {
+            "matchers": [
+              {
+                "min": 1
+              }
+            ]
+          },
+          "$.payload[*].*": {
             "matchers": [
               {
                 "match": "type"

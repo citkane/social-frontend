@@ -1,0 +1,135 @@
+{
+  "consumer": {
+    "name": "social-frontend"
+  },
+  "provider": {
+    "name": "social-frontend-bff"
+  },
+  "messages": [
+    {
+      "description": "users.create.user",
+      "providerStates": [
+        {
+          "name": {
+            "type": "users",
+            "action": "create",
+            "command": "user",
+            "args": [
+              {
+                "userName": "testuser",
+                "realName": "Test User",
+                "about": "About the user"
+              }
+            ]
+          },
+          "params": null
+        }
+      ],
+      "contents": {
+        "status": 201,
+        "payload": {
+          "userName": "testuser",
+          "realName": "Test User",
+          "about": "About the user",
+          "uid": "sf7ufjx7hb5b6",
+          "created": "2019-06-22T22:11:49.347Z"
+        }
+      },
+      "matchingRules": {
+        "body": {
+          "$.payload.uid": {
+            "matchers": [
+              {
+                "match": "type"
+              }
+            ]
+          },
+          "$.payload.created": {
+            "matchers": [
+              {
+                "match": "regex",
+                "regex": "^\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d\\.\\d{3,}([+-][0-2]\\d:[0-5]\\d|Z)$"
+              }
+            ]
+          }
+        }
+      },
+      "metaData": {
+        "content-type": "application/json"
+      }
+    },
+    {
+      "description": "activities.create.activity",
+      "providerStates": [
+        {
+          "name": {
+            "type": "activities",
+            "action": "create",
+            "command": "activity",
+            "args": [
+              {
+                "title": "Test Activity",
+                "about": "About the activity",
+                "date": "2019-06-28"
+              }
+            ]
+          },
+          "params": null
+        }
+      ],
+      "contents": {
+        "status": 201,
+        "payload": {
+          "title": "Test Activity",
+          "about": "About the activity",
+          "date": "2016-01-01",
+          "ownerId": "sf7ufjx7hb5b6",
+          "uid": "sf7ufjx7hb5b6",
+          "created": "2019-06-22T22:11:49.347Z"
+        }
+      },
+      "matchingRules": {
+        "body": {
+          "$.payload.date": {
+            "matchers": [
+              {
+                "match": "regex",
+                "regex": "^([\\+-]?\\d{4}(?!\\d{2}\\b))((-?)((0[1-9]|1[0-2])(\\3([12]\\d|0[1-9]|3[01]))?|W([0-4]\\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\\d|[12]\\d{2}|3([0-5]\\d|6[1-6])))?)$"
+              }
+            ]
+          },
+          "$.payload.ownerId": {
+            "matchers": [
+              {
+                "match": "type"
+              }
+            ]
+          },
+          "$.payload.uid": {
+            "matchers": [
+              {
+                "match": "type"
+              }
+            ]
+          },
+          "$.payload.created": {
+            "matchers": [
+              {
+                "match": "regex",
+                "regex": "^\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d\\.\\d{3,}([+-][0-2]\\d:[0-5]\\d|Z)$"
+              }
+            ]
+          }
+        }
+      },
+      "metaData": {
+        "content-type": "application/json"
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "3.0.0"
+    }
+  }
+}

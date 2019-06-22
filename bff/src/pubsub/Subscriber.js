@@ -20,7 +20,7 @@ class Subscriber {
                 m = JSON.parse(message.toString());
                 if (t === 'bff.makesubscriptions') {
                     m.forEach((newTopic) => {
-                        this.subscribe(newTopic);
+                        if (newTopic) this.subscribe(newTopic);
                     });
                 }
             } catch (err) {
@@ -48,6 +48,7 @@ class Subscriber {
         if (topics.indexOf(topic) === -1) {
             topics.push(topic);
             subscriber.subscribe(topic);
+            console.log(`bff is subscribed to ${topic}`);
         }
     }
 
