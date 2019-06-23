@@ -1,4 +1,5 @@
 const hostname = process.env.BFF_STATICPORT || '127.0.0.1';
+const express = require('express');
 
 module.exports = {
     runtimeCompiler: true,
@@ -25,6 +26,9 @@ module.exports = {
                 ws: true,
                 changeOrigin: true
             }
+        },
+        before: (app) => {
+            app.use('/docs', express.static('../../docs'));
         }
     },
     configureWebpack: {

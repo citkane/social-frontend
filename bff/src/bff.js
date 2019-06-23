@@ -1,7 +1,9 @@
 const config = require('config');
 const path = require('path');
+const express = require('express');
 const proxy = require('express-http-proxy');
-const app = require('express')();
+
+const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http, { path: '/ws' });
 const Subscriber = require('./pubsub/Subscriber');
@@ -40,7 +42,13 @@ function makeSocket(user) {
 
 /** proxy static assets to microservices */
 // app.use('/img', proxy(`${network.images.host}:${network.images.static}`));
-
+// const pacts = config.get('pacts');
+// const pactProxy = `${pacts.broker}:${pacts.brokerPort}`;
+// app.use('/pact', proxy(pactProxy));
+const publicDir = path.join(__dirname, '../../frontend/dist');
+const docDir = path.join(__dirname, '../../../docs');
+app.use(express.static(publicDir));
+app.use('/docs', express.static(docDir));
 /** Serve the static socket.io code to the client */
 app.get('/socket.io/:fileName', (req, res) => {
     const { fileName } = req.params;

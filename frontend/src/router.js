@@ -5,6 +5,7 @@ import People from './views/People';
 import Person from './views/Person';
 import Activities from './views/Activities';
 import Activity from './views/Activity';
+import Documents from './views/Documents';
 
 Vue.use(Router);
 
@@ -31,7 +32,10 @@ export default new Router({
         {
             path: '/activities/:uid',
             component: Activity
+        },
+        {
+            path: '/dev',
+            component: Documents
         }
-
     ]
 });

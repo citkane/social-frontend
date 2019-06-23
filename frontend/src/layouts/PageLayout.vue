@@ -6,10 +6,20 @@
             v-model="drawer">
                 <v-list>
                     <v-list-tile :to="`/people`">
-                        <h3>People</h3>
+                        <v-list-tile-title>People</v-list-tile-title>
                     </v-list-tile>
                     <v-list-tile :to="`/activities`">
-                        <h3>Social Activities</h3>
+                        <v-list-tile-title>Social Activities</v-list-tile-title>
+                    </v-list-tile>
+                </v-list>
+                <v-divider />
+                <v-list dense>
+                    <v-list-tile :to="`/dev`">
+                        <v-list-tile-title>Developers</v-list-tile-title>
+                    </v-list-tile>
+                    <v-list-tile href="http://localhost:8083" target="_blank">
+                        <v-list-tile-sub-title class="ml-3">Pact testing broker</v-list-tile-sub-title>
+                        <v-icon left size="12px">fas fa-external-link-alt</v-icon>
                     </v-list-tile>
                 </v-list>
             </v-navigation-drawer>
