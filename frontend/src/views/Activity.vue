@@ -97,7 +97,6 @@ export default {
             this.isActivityFormValid = valid;
         },
         activityFormValue(form) {
-            console.log(form);
             this.activityForm = form;
         }
     },

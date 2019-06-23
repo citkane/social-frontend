@@ -106,7 +106,6 @@ export default {
         }
     },
     ready() {
-        console.log(this.activity);
         Object.keys(this.form).forEach((key) => {
             this.form[key] = this.activity[key];
         });

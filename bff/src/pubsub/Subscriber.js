@@ -5,7 +5,7 @@ const config = require('config');
 const network = config.get('network');
 const subscriber = zmq.socket('sub');
 subscriber.connect(`tcp://${network.pubsub.host}:${network.pubsub.port}`);
-console.log('subscriber: ', `tcp://${network.pubsub.host}:${network.pubsub.port}`);
+console.log('zmq subscriber: ', `tcp://${network.pubsub.host}:${network.pubsub.port}`);
 
 let sockets = [];
 let topics = [];
@@ -41,7 +41,6 @@ class Subscriber {
 
     prune(socket) {
         sockets = sockets.filter(s => s.id !== socket.id);
-        console.log(sockets.length);
     }
 
     subscribe(topic) {

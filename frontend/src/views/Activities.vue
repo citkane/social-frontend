@@ -1,6 +1,5 @@
 <template>
     <page-layout toolbar>
-        {{ orderByVote}}
         <template v-slot:toolbarTitle>Activities</template>
         <template v-slot:toolbarActions>
             <ee-dialog title="Create an activity" icon elevation="7" :stepped="2" :width="700">
@@ -29,8 +28,7 @@
             <v-layout wrap>
                 <v-flex v-for="(activity, index) in allActivities" :key="index"
                     md3
-                    class="d-flex"
-                    :style="{ order: orderByVote[activity.uid] }">
+                    class="d-flex ordered" >
                     <activity-card :activityId="activity.uid" @voted="vote"/>
                 </v-flex>
             </v-layout>
@@ -86,8 +84,14 @@ export default {
         },
         vote(data) {
             Vue.set(this.orderByVote, data.activityId, data.votes);
-            console.log(this.orderByVote);
         }
     }
 };
 </script>
+
+<style lang="scss" scoped>
+.ordered {
+    transition: order 2s;
+}
+</style>
+
