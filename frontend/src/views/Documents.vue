@@ -2,10 +2,10 @@
     <page-layout>
         <v-container fluid class="pa-0">
             <div class='header'>
-                <v-btn @click="back()" small>Back</v-btn>
+                <v-btn @click="back()" small :disabled="!history.length">Back</v-btn>
                 <div>{{ location}}</div>
             </div>
-            <iframe class="d-flex grow" :src="location" @load.prevent="updateLocation" ref="docs" />
+            <iframe class="d-flex grow" src="/docs/" @load.prevent="updateLocation" ref="docs" />
         </v-container>
     </page-layout>
 </template>
@@ -27,16 +27,17 @@ export default {
     },
     methods: {
         updateLocation() {
-            this.history.push(this.$refs.docs.contentWindow.location.pathname);
-            if (this.location === this.history[this.history.length - 1]) return;
-            
+            if (this.location === this.$refs.docs.contentWindow.location.pathname) return;
             this.location = this.$refs.docs.contentWindow.location.pathname;
-            // console.log(this.location);
+            this.history.push(this.location);
+            console.info(this.history);
         },
         back() {
-            this.history.pop();
-            this.location = this.history.pop() || '/docs/';
-            console.log(this.location);
+            if (this.$refs.docs.contentWindow.location.pathname
+            === this.history[this.history.length - 1]) {
+                this.history.pop();
+            }
+            this.$refs.docs.contentWindow.location.pathname = this.history.pop() || '/docs/';
         }
     },
     computed: {

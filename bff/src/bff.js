@@ -12,7 +12,7 @@ const { makeUserSocket, reqRes, checkStatus } = require('./api/proxy');
 /** Communicate all backend subscriptions to be passed to frontend */
 const network = config.get('network');
 const subscriber = new Subscriber();
-subscriber.subscribe('bff.makesubscriptions');
+subscriber.subscribe('bff/makesubscriptions');
 Object.keys(network).forEach((service) => {
     if (service === 'bff' || service === 'persistance') return;
     if (!network[service].publish || !network[service].crud) return;
@@ -60,7 +60,9 @@ app.get('/login', (req, res) => {
     const { userName, password } = req.query;
     reqRes('admin', 'users', 'read', 'userByName', [userName])
         .then((data) => {
+            console.log(data);
             const err = checkStatus(data).error;
+            console.log(err);
             if (!err) {
                 const user = data.payload;
                 makeSocket(user);

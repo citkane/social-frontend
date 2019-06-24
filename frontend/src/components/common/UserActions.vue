@@ -21,7 +21,7 @@
             </template>
 
         </ee-dialog>
-        <v-btn flat v-if="!loggedInUser">Register</v-btn>
+        <v-btn flat v-if="!loggedInUser" @click='register'>Register</v-btn>
         <v-menu v-else left offset-y nudge-bottom>
             <template v-slot:activator="{ on }">
                 <v-btn v-on="on" flat>
@@ -82,6 +82,9 @@ export default {
             eventBus.$on('user-logged-in-error', (err) => {
                 alert(err);
             });
+        },
+        register() {
+            alert('not yet implemented!....\nTalk to Michael');
         },
         logout() {
             this.$store.dispatch('users/logOut');
