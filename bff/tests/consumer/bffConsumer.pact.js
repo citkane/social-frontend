@@ -17,7 +17,7 @@ const { expect } = chai;
 chai.use(dateString);
 const pactsDir = path.join(__dirname, '../pacts');
 const pacts = config.get('pacts');
-const pactBrokerUrl = `${pacts.broker}:${pacts.brokerPort}`;
+const pactBrokerUrl = `http://${pacts.host}:${pacts.port}`;
 const network = config.get('network');
 
 const deletedPacts = [];

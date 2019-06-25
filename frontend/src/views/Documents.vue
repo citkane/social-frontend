@@ -30,7 +30,6 @@ export default {
             if (this.location === this.$refs.docs.contentWindow.location.pathname) return;
             this.location = this.$refs.docs.contentWindow.location.pathname;
             this.history.push(this.location);
-            console.info(this.history);
         },
         back() {
             if (this.$refs.docs.contentWindow.location.pathname

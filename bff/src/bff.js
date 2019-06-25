@@ -1,3 +1,15 @@
+/**
+ * The backend for the frontend.
+ *
+ * ## It:
+ * - Povides a REST api endpoint for auth requests.
+ * - Provides a websocket interface for connecting clients.
+ * - Proxies all requests, responses and events between the domain to the frontend via websocket.
+ * - serves http static resources.
+ * - proxies http static resource requests to other microservices.
+ * @module bff
+ * */
+
 const config = require('config');
 const path = require('path');
 const express = require('express');
@@ -9,7 +21,7 @@ const io = require('socket.io')(http, { path: '/ws' });
 const Subscriber = require('./pubsub/Subscriber');
 const { makeUserSocket, reqRes, checkStatus } = require('./api/proxy');
 
-/** Communicate all backend subscriptions to be passed to frontend */
+// Communicate all backend subscriptions to be passed to frontend
 const network = config.get('network');
 const subscriber = new Subscriber();
 subscriber.subscribe('bff/makesubscriptions');
@@ -25,7 +37,7 @@ Object.keys(network).forEach((service) => {
         })
         .catch(err => err);
 });
-/** Create a websocket for authenticated frontend session */
+// Create a websocket for authenticated frontend session
 function makeSocket(user) {
     if (io.nsps[`/${user.uid}`]) return;
     const nsp = io.of(`/${user.uid}`);
@@ -40,11 +52,8 @@ function makeSocket(user) {
     });
 }
 
-/** proxy static assets to microservices */
+// proxy static assets to microservices
 // app.use('/img', proxy(`${network.images.host}:${network.images.static}`));
-// const pacts = config.get('pacts');
-// const pactProxy = `${pacts.broker}:${pacts.brokerPort}`;
-// app.use('/pact', proxy(pactProxy));
 const publicDir = path.join(__dirname, '../../frontend/dist');
 const docDir = path.join(__dirname, '../../../docs');
 app.use(express.static(publicDir));
@@ -54,13 +63,17 @@ app.get('/socket.io/:fileName', (req, res) => {
     const { fileName } = req.params;
     res.sendFile(path.join(__dirname, '../node_modules/socket.io-client/dist', fileName));
 });
-
-/** Do session authentication queries */
+/** @interface module:bff.get */
+/**
+ * Do session authentication queries
+ * @function module:bff.get#/login
+ * @param {string} request - the userName of the user.
+ * @returns {response} the authenticated user Object or http error.
+*/
 app.get('/login', (req, res) => {
     const { userName, password } = req.query;
     reqRes('admin', 'users', 'read', 'userByName', [userName])
         .then((data) => {
-            console.log(data);
             const err = checkStatus(data).error;
             console.log(err);
             if (!err) {

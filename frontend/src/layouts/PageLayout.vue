@@ -16,10 +16,6 @@
                     <v-list-tile :to="`/dev`">
                         <v-list-tile-title>Developers</v-list-tile-title>
                     </v-list-tile>
-                    <v-list-tile href="http://localhost:8083" target="_blank">
-                        <v-list-tile-sub-title class="ml-3">Pact testing broker</v-list-tile-sub-title>
-                        <v-icon left size="12px">fas fa-external-link-alt</v-icon>
-                    </v-list-tile>
                 </v-list>
             </v-navigation-drawer>
         <v-toolbar app clipped-left dark color="light-green darken-1">

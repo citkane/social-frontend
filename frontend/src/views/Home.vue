@@ -4,7 +4,7 @@
         <h1>Have a suggestion?</h1>
         <p>You are at the right place...</p>
         <h2>Have an opinion?</h2>
-        <p>You are probably deluding yourself, but at least you are at the right place...</p>
+        <p>Good luck with that. At least you are at the right place...</p>
     </v-container>
     </page-layout>
 </template>

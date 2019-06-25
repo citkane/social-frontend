@@ -1,3 +1,13 @@
+
+/**
+ * ## The user frontend.
+ * 
+ * This is a <a href="https://vuejs.org/" target="_blank">Vue</a> project scaffolding using <a href="https://cli.vuejs.org/" target="_blank">Vue cli 3</a>.
+ * 
+ * It implements the <a href="https://vuetifyjs.com/en/" target="_blank">Vuetify</a> material design component framework.
+ * @module frontend
+ */
+
 import Vue from 'vue';
 import './plugins/axios';
 import './plugins/vuetify';

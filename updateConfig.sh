@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cp -Tr ../src/templates/config ./bff/config
-cp -Tr ../src/templates/config ./frontend/config
+cp -Tr ../config ./bff/config
+cp -Tr ../config ./frontend/config
