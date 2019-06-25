@@ -1,7 +1,10 @@
 <template>
     <page-layout>
     <v-container fluid>
-        <router-link to="/about">about</router-link>
+        <h1>Have a suggestion?</h1>
+        <p>You are at the right place...</p>
+        <h2>Have an opinion?</h2>
+        <p>You are probably deluding yourself, but at least you are at the right place...</p>
     </v-container>
     </page-layout>
 </template>

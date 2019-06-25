@@ -18,7 +18,7 @@ class Subscriber {
             let m;
             try {
                 m = JSON.parse(message.toString());
-                if (t === 'bff.makesubscriptions') {
+                if (t === 'bff/makesubscriptions') {
                     m.forEach((newTopic) => {
                         if (newTopic) this.subscribe(newTopic);
                     });
@@ -26,7 +26,7 @@ class Subscriber {
             } catch (err) {
                 m = message.toString();
             } finally {
-                if (t !== 'bff.makesubscriptions') {
+                if (t !== 'bff/makesubscriptions') {
                     sockets.forEach((socket) => {
                         socket.emit(t, m);
                     });

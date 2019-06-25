@@ -36,22 +36,22 @@ export default {
         },
         populate() {
             const { socket } = this.$api;
-            socket.on('activities.activity-created', (activity) => {
+            socket.on('activities/activity-created', (activity) => {
                 this.dispatch('activities/addActivity', activity);
             });
-            socket.on('activities.activity-updated', (activity) => {
+            socket.on('activities/activity-updated', (activity) => {
                 this.dispatch('activities/updateActivity', activity);
             });
-            socket.on('activities.activity-deleted', (activity) => {
+            socket.on('activities/activity-deleted', (activity) => {
                 this.dispatch('activities/deleteActivity', activity);
             });
             this.dispatch('activities/getAllActivities');
         },
         cleanUp(context) {
             const { socket } = this.$api;
-            socket.off('activities.activity-created');
-            socket.off('activities.activity-updated');
-            socket.off('activities.activity-deleted');
+            socket.off('activities/activity-created');
+            socket.off('activities/activity-updated');
+            socket.off('activities/activity-deleted');
             context.commit('activities', {});
         }
     }

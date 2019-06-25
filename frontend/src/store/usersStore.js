@@ -66,22 +66,22 @@ export default {
         },
         populate() {
             const { socket } = this.$api;
-            socket.on('users.user-created', (user) => {
+            socket.on('users/user-created', (user) => {
                 this.dispatch('users/addUser', user);
             });
-            socket.on('users.user-updated', (user) => {
+            socket.on('users/user-updated', (user) => {
                 this.dispatch('users/updateUser', user);
             });
-            socket.on('users.user-deleted', (user) => {
+            socket.on('users/user-deleted', (user) => {
                 this.dispatch('users/deleteUser', user);
             });
             this.dispatch('users/getAllUsers');
         },
         cleanUp(context) {
             const { socket } = this.$api;
-            socket.off('users.user-created');
-            socket.off('users.user-updated');
-            socket.off('users.user-deleted');
+            socket.off('users/user-created');
+            socket.off('users/user-updated');
+            socket.off('users/user-deleted');
             localStorage.removeItem('user');
             context.commit('loggedInUser', false);
             context.commit('users', {});

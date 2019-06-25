@@ -57,12 +57,12 @@ export default {
     },
     mounted() {
         this.getVotes();
-        this.$api.socket.on('voting-voted', (entityId) => {
+        this.$api.socket.on('voting/voted', (entityId) => {
             if (entityId === this.entityId) this.getVotes();
         });
     },
     beforeDestroy() {
-        this.$api.socket.off('voting-voted');
+        this.$api.socket.off('voting/voted');
         console.log('socketoff');
     }
 

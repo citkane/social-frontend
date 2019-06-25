@@ -1,10 +1,9 @@
 <template>
     <v-app>
         <v-navigation-drawer app clipped
-            v-if="loggedInUser"
             width=200
             v-model="drawer">
-                <v-list>
+                <v-list v-if="loggedInUser">
                     <v-list-tile :to="`/people`">
                         <v-list-tile-title>People</v-list-tile-title>
                     </v-list-tile>
