@@ -1,4 +1,4 @@
-const hostname = process.env.BFF_STATICPORT || '127.0.0.1';
+const hostname = process.env.BFF_HOST || '127.0.0.1';
 const express = require('express');
 
 module.exports = {
