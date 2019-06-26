@@ -14,9 +14,10 @@
                 <v-divider />
                 <v-list dense>
                     <v-list-tile :to="`/dev`">
-                        <v-list-tile-title>Developers</v-list-tile-title>
+                        <v-list-tile-title class="grey--text">Documentation</v-list-tile-title>
                     </v-list-tile>
                 </v-list>
+                <v-divider />
             </v-navigation-drawer>
         <v-toolbar app clipped-left dark color="light-green darken-1">
             <v-btn icon to="/">

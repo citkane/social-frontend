@@ -2,11 +2,11 @@
     <page-layout toolbar>
         <template v-slot:toolbarTitle>Activities</template>
         <template v-slot:toolbarActions>
-            <ee-dialog title="Create an activity" icon elevation="7" :stepped="2" :width="700">
+            <ee-dialog title="Create an activity" icon small elevation="7" :stepped="2" :width="700">
                 <template v-slot:button>
                     <v-tooltip left>
                         <template v-slot:activator="{ on }">
-                            <v-icon color="primary" v-on="on">$vuetify.icons.plus</v-icon>
+                            <v-icon small color="primary" v-on="on">$vuetify.icons.plus</v-icon>
                         </template>
                         <span>Suggest a new activity</span>
                     </v-tooltip>
@@ -27,8 +27,8 @@
         <v-container flex id="activities" grid-list-md>
             <v-layout wrap>
                 <v-flex v-for="(activity, index) in allActivities" :key="index"
-                    md3
-                    class="d-flex ordered" >
+                    md4
+                    class="ordered" >
                     <activity-card :activityId="activity.uid" @voted="vote"/>
                 </v-flex>
             </v-layout>

@@ -7,10 +7,10 @@
         </template>
         <template v-slot:toolbarActions v-if="activity">
             <Vote :entityId="activityId" class="mx-2" />
-            <ee-dialog title="Edit Activity" icon elevation="7" v-if="editable"
+            <ee-dialog title="Edit Activity" icon small elevation="7" v-if="editable"
                 :stepped="2" :width="700">
                 <template v-slot:button>
-                    <v-icon small color="primary">$vuetify.icons.edit</v-icon>
+                    <v-icon size="14px" class="pb-1 pl-1" color="primary">$vuetify.icons.edit</v-icon>
                 </template>
                 <template v-slot:frameless-content="{ close, step }">
                     <activity-form id="activityForm"
@@ -24,13 +24,13 @@
                 <template v-slot:actions="{ close }">
                     <v-btn type="submit" form="activityForm"
                         color="warning"
-                        :disabled="!activityFormValid">save</v-btn>
+                        :disabled="!isActivityFormValid">save</v-btn>
                     <v-btn @click="deleteActivity(close)" dark color="red">delete</v-btn>
                 </template>
             </ee-dialog>
         </template>
         <v-container fluid id="activity" v-if="activity">
-            {{ editable }}
+            {{ isActivityFormValid }}
             <h2>{{ activity.title }}</h2>
             <div>{{ activity.date }}</div>
             <div class="spaced">{{ activity.about }}</div>

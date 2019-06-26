@@ -1,14 +1,13 @@
 <template>
     <v-card>
         <v-toolbar color="teal lighten-3" flat dark>
-            <div @click="goToActivity(activity.uid)" class="click title font-weight-regular">
+            <v-toolbar-title @click="goToActivity(activity.uid)" class="click">
                 {{ activity.title }}
-            </div>
+            </v-toolbar-title>
         </v-toolbar>
         <v-slide-y-transition>
             <v-card-text v-show="show" class="spaced">{{ activity.about }}</v-card-text>
         </v-slide-y-transition>
-        <div class="grow"></div>
         <v-divider />
         <v-card-actions>
             <Vote :entityId="activityId" class="ml-1" @voted="vote"/>
@@ -61,9 +60,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .v-card {
-        display: flex;
-        flex-direction: column;
-    }
 
 </style>

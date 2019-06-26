@@ -1,13 +1,13 @@
 <template>
-    <v-layout align-center>
-        <v-icon @click="vote('+')" class="thumb up" :class="classes['+']" :color="color['+']">
+    <div class="d-flex align-center">
+        <v-icon small @click="vote('+')" class="thumb up" :class="classes['+']" :color="color['+']">
             fas fa-thumbs-up
         </v-icon>
         <span class="total title text-xs-center">{{ votes.total }}</span>
-        <v-icon @click="vote('-')" class="thumb down" :class="classes['-']" :color="color['-']">
+        <v-icon small @click="vote('-')" class="thumb down" :class="classes['-']" :color="color['-']">
             fas fa-thumbs-down
         </v-icon>
-    </v-layout>
+    </div>
 </template>
 
 <script>
@@ -77,10 +77,10 @@ export default {
     }
     .thumb.up {
         transform: scale(-1, 1);
-        margin-bottom:9px;
+        margin-bottom:6px;
     }
     .thumb.down {
-        margin-top:9px;
+        margin-top:6px;
     }
     .thumb.active {
         cursor: pointer!important;

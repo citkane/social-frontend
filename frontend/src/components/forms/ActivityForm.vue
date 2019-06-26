@@ -13,16 +13,16 @@
                     <v-stepper-content step="1">
                         <v-text-field v-model="form.title"
                             label="Activity title"
+                            counter="40"
                             required :rules="rules.title"/>
                         <v-text-field v-model="form.date"
                             type="date"
                             label="Propose a date"
-                            required :rules="rules.date"
-                            disabled />
-                        <v-date-picker v-model="form.date"
+                            required :rules="rules.date" />
+                        <!--v-date-picker v-model="form.date"
                             required :rules="rules.date"
                             class="mt-3"
-                            landscape />
+                            landscape /-->
                     </v-stepper-content>
                     <v-stepper-content step="2">
                         <v-textarea v-model="form.about"
@@ -59,7 +59,8 @@ export default {
             formSteps: 0,
             rules: {
                 title: [
-                    v => !!v || 'Activity title is required'
+                    v => !!v || 'Activity title is required',
+                    v => v.length <= 40 || 'Maximum lenth of 40'
                 ],
                 about: [
                     v => !!v || 'Something about the activity is required'
